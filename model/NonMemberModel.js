@@ -3,9 +3,10 @@ const mongoose = require("mongoose")
 const nonMemberSchema = new mongoose.Schema({
     name: String,
     arrivingTime: String,
+    date:String,
     isVisited:String,
     pickup:String,
-    status:String,
+    deliver:String,
     house: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "House"

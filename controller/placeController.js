@@ -1,12 +1,15 @@
-const placeModel = require("../model/placeModel")
+const placeModel = require("../Model/placeModel")
 const validator = require("validator")
 
 
 //add place
 module.exports.addPlace = function (req, res) {
     let placeName = req.body.placeName
+    let rent=req.body.rent
+
     let place = new placeModel({
-        "placeName": placeName
+        "placeName": placeName,
+        "rent":rent
     })
 
     let isError = false
@@ -18,7 +21,12 @@ module.exports.addPlace = function (req, res) {
             "PlaceName Error": "Please Enter Valid Name"
         })
     }
-
+    if (rent == undefined || validator.isNumeric(rent.toString()) == false || rent.trim().length == 0) {
+        isError = true;
+        err.push({
+            "Rent Error": "Please Enter Rent"
+        })
+    }
 
     if (isError == true) {
         console.log(err)
@@ -77,6 +85,8 @@ module.exports.getAllPlaces = function (req, res) {
 module.exports.updatePlace = function (req, res) {
     let placeId = req.body.placeId
     let placeName = req.body.placeName
+    let rent=req.body.rent
+
 
     let isError = false
     let err = []
@@ -86,6 +96,14 @@ module.exports.updatePlace = function (req, res) {
             isError = true;
             err.push({
                 "PlaceName Error": "Please Enter Valid Name"
+            })
+        }
+    }
+    if (placeName != undefined) {
+        if (validator.isNumeric(rent.toString()) == false || rent.trim().length == 0) {
+            isError = true;
+            err.push({
+                "Rent Error": "Please Enter Rent"
             })
         }
     }
@@ -99,7 +117,7 @@ module.exports.updatePlace = function (req, res) {
         })
     }
     else {
-        placeModel.updateOne({ _id: placeId }, { placeName: req.body.placeName }, function (err, data) {
+        placeModel.updateOne({ _id: placeId }, { placeName: placeName ,rent:rent}, function (err, data) {
             if (err) {
                 res.json({
                     "status": -1,

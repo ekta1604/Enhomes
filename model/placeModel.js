@@ -1,7 +1,8 @@
 const mongoose = require("mongoose")
 
 const placeSchema = new mongoose.Schema({
-    placeName: String
+    placeName : String,
+    rent : String
 })
 
 module.exports = mongoose.model("Place", placeSchema)

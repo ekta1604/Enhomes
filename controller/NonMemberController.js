@@ -1,4 +1,4 @@
-const nonMemberModel = require("../model/NonMemberModel")
+const nonMemberModel = require("../Model/NonMemberModel")
 const validator = require("validator")
 //add nonMember
 
@@ -6,18 +6,20 @@ module.exports.addNonMember = function (req, res) {
     let house = req.body.house
     let name = req.body.name
     let arrivingTime = req.body.arrivingTime
+    let date = req.body.date
     let isVisited = req.body.isVisited
     let pickup = req.body.pickup
-    let status = req.body.status
+    let deliver = req.body.deliver
 
 
     let nonMember = new nonMemberModel({
         "house": house,
         "name": name,
         "arrivingTime": arrivingTime,
+        "date":date,
         "isVisited": isVisited,
         "pickup": pickup,
-        "status": status
+        "deliver": deliver
 
     })
 
@@ -88,9 +90,10 @@ module.exports.updateNonMember = function (req, res) {
     let nonMemberId = req.body.nonMemberId
     let name = req.body.name
     let arrivingTime = req.body.arrivingTime
+    let date=req.body.date
     let isVisited = req.body.isVisited
     let pickup = req.body.pickup
-    let status = req.body.status
+    let deliver = req.body.deliver
 
     let isError = false;
     let err = [];
@@ -114,7 +117,7 @@ module.exports.updateNonMember = function (req, res) {
         })
     }
     else {
-        nonMemberModel.updateOne({ _id: nonMemberId }, { "name": name, "arrivingTime": arrivingTime, "isVisited": isVisited, "pickup": pickup, "status": status }, function (err, data) {
+        nonMemberModel.updateOne({ _id: nonMemberId }, { "name": name, "arrivingTime": arrivingTime, "date": date ,"isVisited": isVisited, "pickup": pickup, "deliver": deliver }, function (err, data) {
             if (err) {
                 console.log(err)
                 res.json({
@@ -138,8 +141,9 @@ module.exports.updateNonMember = function (req, res) {
 
 //delete nonMember
 module.exports.deleteNonMember = function (req, res) {
-    let nonMemberId = req.params.nonMemberId
-    nonMemberModel.deleteOne({ _id: nonMemberId }, function (err, data) {
+    let nonmemberId = req.params.nonmemberId
+    nonMemberModel.deleteOne({ _id: nonmemberId }, function (err, data) {
+        console.log(nonmemberId)
         if (err) {
             console.log(err)
             res.json({

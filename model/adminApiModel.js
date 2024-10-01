@@ -1,8 +1,8 @@
 const mongoose = require("mongoose")
 
 const adminSchema = new mongoose.Schema({
-    Email: String,
-    Password: String,
+    email: String,
+    password: String,
     role:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Role"

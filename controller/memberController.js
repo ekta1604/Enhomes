@@ -4,7 +4,7 @@ const validator = require("validator")
 //add member
 module.exports.addMember = function (req, res) {
 
-    let house = req.body.house
+    let house = req.body.houseId
     let memberName = req.body.memberName
     let dateOfBirth = req.body.dateOfBirth
     let age = req.body.age
@@ -31,12 +31,7 @@ module.exports.addMember = function (req, res) {
             "Age Error": "Please Enter Valid Age"
         })
     }
-    if (gender == undefined || gender.toLowerCase() != "male" && gender.toLowerCase() != "female") {
-        isError = true;
-        err.push({
-            "Gender Error": "Please Enter Valid Gender"
-        })
-    }
+
     if (contactNo == undefined || validator.isNumeric(contactNo.toString()) == false || contactNo.length != 10) {
         isError = true;
         err.push({
@@ -109,23 +104,23 @@ module.exports.updateMember = function (req, res) {
         }
     }
 
-    if (gender != undefined) {
-        if (gender.toLowerCase() != "male" && gender.toLowerCase() != "female") {
-            isError = true;
-            err.push({
-                "Gender Error": "Please Enter Valid Gender"
-            })
-        }
-    }
+    // if (gender != undefined) {
+    //     if (gender.toLowerCase() != "male" && gender.toLowerCase() != "female") {
+    //         isError = true;
+    //         err.push({
+    //             "Gender Error": "Please Enter Valid Gender"
+    //         })
+    //     }
+    // }
 
-    if (contactNo != undefined) {
-        if (validator.isNumeric(contactNo.toString()) == false || contactNo.length != 10) {
-            isError = true;
-            err.push({
-                "ContactNo Error": "Please Enter Valid ContactNo"
-            })
-        }
-    }
+    // if (contactNo != undefined) {
+    //     if (validator.isNumeric(contactNo.toString()) == false || contactNo.length != 10) {
+    //         isError = true;
+    //         err.push({
+    //             "ContactNo Error": "Please Enter Valid ContactNo"
+    //         })
+    //     }
+    // }
 
     if (isError) {
         res.json({
@@ -148,7 +143,7 @@ module.exports.updateMember = function (req, res) {
                 res.json({
                     "status": 200,
                     "data": data,
-                    "msg": "User Information Updated!!"
+                    "msg": "Member Information Updated!!"
                 })
             }
         })
@@ -158,7 +153,6 @@ module.exports.updateMember = function (req, res) {
 //Delete User
 module.exports.deleteMember = function (req, res) {
     let memberId = req.params.memberId
-
     memberModel.deleteOne({ _id: memberId }, function (err, data) {
         if (err) {
             console.log(err)

@@ -1,4 +1,4 @@
-const adminApi = require("../model/adminApi")
+const adminApi = require("../Model/adminApiModel")
 const validator = require("validator")
 //addHouse
 
@@ -7,7 +7,7 @@ module.exports.addAdmin = function (req, res) {
     let email = req.body.email
     let password = req.body.password;
 
-    let admin = new houseModel({
+    let admin = new adminApi({
         "role": role,
         "email": email,
         "password": password
@@ -83,6 +83,7 @@ module.exports.getAllAdmins = function (req, res) {
 //update House
 module.exports.updateAdmin = function (req, res) {
     let email = req.body.email
+    let id = req.body.id
 
     isError = false;
     let err = [];
@@ -130,6 +131,7 @@ module.exports.updateAdmin = function (req, res) {
 //deleteHouse
 module.exports.deleteAdmin = function (req, res) {
     let id = req.params.id
+    console.log(id)
     adminApi.deleteOne({ _id: id }, function (err, data) {
         if (err) {
             console.log(err)
@@ -141,6 +143,7 @@ module.exports.deleteAdmin = function (req, res) {
         }
         else {
             res.json({
+              
                 "status": 200,
                 "data": data,
                 "msg": "admin Deleted!!"

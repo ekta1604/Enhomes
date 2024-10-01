@@ -1,4 +1,5 @@
-const eventModel = require("../model/eventModel")
+const eventModel = require("../Model/eventModel")
+const placeModel = require("../Model/placeModel")
 const validator = require("validator")
 const { json } = require("express")
 
@@ -95,6 +96,7 @@ module.exports.updateEvent = function (req, res) {
     let eventEndDate = req.body.eventEndDate
     let eventDetails = req.body.eventDetails
     let rent = req.body.rent
+    let place = req.body.place
 
     let isError = false;
     let err = [];
@@ -129,7 +131,7 @@ module.exports.updateEvent = function (req, res) {
     }
     else {
 
-        eventModel.updateOne({ _id: eventId }, { eventDate: eventDate, eventEndDate: eventEndDate, eventDetails: eventDetails, rent: rent }, function (err, data) {
+        eventModel.updateOne({ _id: eventId }, { eventDate: eventDate, eventEndDate: eventEndDate, eventDetails: eventDetails }, function (err, data) {
             if (err) {
                 console.log(err)
                 res.json({
@@ -176,20 +178,6 @@ module.exports.getCheckDate = function (req, res) {
     let startDate = req.params.startDate
     let endDate = req.params.endDate
     let place = req.params.place
-    // eventModel.find({
-    //     $or: [{ eventDate: { $gte: startDate, $lte: endDate } },
-    //     { eventEndDate: { $gte: startDate, $lte: endDate } }]
-    // }
-    //11
-    //12
-    //--13  
-    //15
-    //16      
-    //12 12 s1 
-    //10 15 no 
-    //15 22 s2 
-    //5  22 s2 
-
 
     eventModel.find({
         $and: [{ eventDate: { $lte: startDate } },
@@ -197,9 +185,6 @@ module.exports.getCheckDate = function (req, res) {
         ],place:place
 
     }, function (err, data) {
-
-
-
         if (err) {
             console.log(err)
             res.json({
@@ -212,7 +197,7 @@ module.exports.getCheckDate = function (req, res) {
             console.log("first attempt...");
             console.log(data);
             if (data.length == 0) {
-                console.log("checkong end date")
+                console.log("checking end date")
                 eventModel.find({
                     eventEndDate: { $gte: startDate, $lte: endDate },place:place
                 }, function (err, data2) {
@@ -226,14 +211,14 @@ module.exports.getCheckDate = function (req, res) {
                                 res.json({
                                     "status": 200,
                                     "data": [],
-                                    "msg": "NoEvent!!"
+                                    "msg": "No Event Found!!"
                                 })
                             } else {
 
                                 res.json({
                                     "status": 200,
                                     "data": data3,
-                                    "msg": "Event Retrived!!"
+                                    "msg": "Events Retrived!!"
                                 })
                             }
                         })
@@ -242,7 +227,7 @@ module.exports.getCheckDate = function (req, res) {
                         res.json({
                             "status": 200,
                             "data": data2,
-                            "msg": "Event Retrived!!"
+                            "msg": "Events Retrived!!"
                         })
                     }
                 })
@@ -252,49 +237,10 @@ module.exports.getCheckDate = function (req, res) {
                 res.json({
                     "status": 200,
                     "data":  data,
-                    "msg": "Event Retrived!!"
+                    "msg": "Events Retrived!!"
                 })
             }
         }
 
     })
 }
-
-
-// event end date api
-
-// module.exports.getCheckEndDate = function (req, res) {
-//     let startDate = req.params.startDate
-//     let endDate = req.params.endDate
-
-//     //
-//     eventModel.find({
-//         eventDate: { $gte: startDate, $lte: endDate }
-//     }, function (err, data) {
-//         if (err) {
-//             console.log(err)
-//             res.json({
-//                 "status": -1,
-//                 "data": err,
-//                 "msg": "Something went Wrong...."
-//             })
-//         }
-//         else {
-//             if (data.length == 0) {
-//                 res.json({
-//                     "status": 200,
-//                     "data": data,
-//                     "msg": "No Event Found!!"
-//                 })
-//             } else {
-//                 res.json({
-//                     "status": 200,
-//                     "data": data,
-//                     "msg": "Event Retrived!!"
-//                 })
-//             }
-//         }
-//     })
-// }
-
-

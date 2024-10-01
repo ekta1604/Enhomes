@@ -1,4 +1,4 @@
-const maintenanceMasterModel = require("../model/maintenanceMaster")
+const maintenanceMasterModel = require("../Model/maintenanceMaster")
 const validator = require("validator")
 
 //add Maintenance
@@ -62,6 +62,8 @@ module.exports.updateMaintenance = function (req, res) {
     let maintenanceMasterId = req.body.maintenanceMasterId
     let maintenanceAmount = req.body.maintenanceAmount
     let penalty = req.body.penalty
+
+    console.log(maintenanceMasterId)
 
     let isError = false;
     let err = [];

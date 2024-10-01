@@ -1,32 +1,38 @@
 const express = require("express")
-const mongoose = require("mongoose")
+const mongoose=require("mongoose")
 
-const swaggerUi = require('swagger-ui-express')
-const swaggerFile = require('./swagger_output.json')
-
-const userController = require("./controller/userController")
-const roleController = require("./controller/roleController")
-const staffController = require("./controller/staffController")
-const maintenanceController = require("./controller/maintenanceController")
-const houseController = require("./controller/houseController")
-const placeController = require("./controller/placeController")
-const sessionController = require("./controller/sessionController")
-const feedbackController = require("./controller/feedbackController")
-const eventController = require("./controller/eventController")
-const memberController = require("./controller/memberController")
-const nonMemebrController = require("./controller/NonMemberController")
-const maintenanceMaster=require("./controller/maintenanceMasterController")
-const adminApiController=require("./controller/adminApiController")
+const userController=require("./Controller/userController")
+const roleController =require("./Controller/roleController")
+const staffController=require("./Controller/staffController")
+const maintenanceController=require("./Controller/maintenanceController")
+const houseController = require("./Controller/houseController")
+const sessionController = require("./Controller/sessionController")
+const maintenanceMasterController = require("./Controller/maintenanceMasterController")
+const placeController = require("./Controller/placeController")
+const feedbackController = require("./Controller/feedbackController")
+const eventController = require("./Controller/eventController")
+const memberController = require("./Controller/memberController")
+const nonMemebrController = require("./Controller/NonMemberController")
+const adminApiController=require("./Controller/adminApiController")
 
 
-const app = express()
+
+
+const app = express()  
 
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({extended:true}))
+
 
 //Session Api
 app.get("/session", sessionController.getAllUsers)
 app.post("/login", sessionController.login)
+
+//Admin Api
+app.post("/admin", adminApiController.addAdmin)
+app.put("/admin", adminApiController.updateAdmin)
+app.get("/admin", adminApiController.getAllAdmins)
+app.delete("/admin/:id", adminApiController.deleteAdmin)
 
 //User Api
 app.get("/user", userController.getAllUsers)
@@ -55,9 +61,9 @@ app.put("/maintenance", maintenanceController.updateMaintenance)
 app.delete("/maintenance/:maintenanceId", maintenanceController.deleteMaintenance)
 
 //Maintenance Master Api
-app.get("/maintenanceMaster", maintenanceMaster.getAllMaintenance)
-app.post("/maintenanceMaster", maintenanceMaster.addMaintenance)
-app.put("/maintenanceMaster", maintenanceMaster.updateMaintenance)
+app.get("/maintenanceMaster", maintenanceMasterController.getAllMaintenance)
+app.post("/maintenanceMaster", maintenanceMasterController.addMaintenance)
+app.put("/maintenanceMaster", maintenanceMasterController.updateMaintenance)
 
 //House Api
 app.get("/house", houseController.getAllHouses)
@@ -78,6 +84,8 @@ app.get("/event", eventController.getAllEvents)
 app.delete("/event/:eventId", eventController.deleteEvent)
 app.get("/getEventByDate/:startDate/:endDate/:place",eventController.getCheckDate)
 
+
+
 //Feedback Api
 app.post("/feedback", feedbackController.addfeedback)
 app.put("/feedback", feedbackController.updatefeedback)
@@ -96,38 +104,26 @@ app.put("/nonmember", nonMemebrController.updateNonMember)
 app.get("/nonmember", nonMemebrController.getAllNonMember)
 app.delete("/nonmember/:nonmemberId", nonMemebrController.deleteNonMember)
 
-//Admin Api
-app.post("/admin", adminApiController.addAdmin)
-app.put("/admin", adminApiController.updateAdmin)
-app.get("/admin", adminApiController.getAllAdmins)
-app.delete("/admin/:adminId", adminApiController.deleteAdmin)
 
-const localDb = "mongodb://localhost/e-society-22";
-//const liveDb = "mongodb+srv://janvi123:enhomes@cluster0.l3iat.mongodb.net/enhomes?retryWrites=true&w=majority";
-
-mongoose.connect(localDb, function (err) {
-    if (err) {
+mongoose.connect("mongodb://127.0.0.1:27017/e-society-24",function(err){
+    if(err)
+    {
         console.log(err)
         console.log("Something Went Wrong....")
     }
-    else {
-        console.log("db Connected")
+    else{
+        console.log("db Connected!!")
     }
 })
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, function (err) {
-    if (err) {
+
+app.listen(3000,function(err){
+    if(err)
+    {
         console.log(err)
         console.log("Something Went Wrong....")
     }
-    else {
-        console.log("Server Started 3000")
+    else{
+        console.log("Server Connected at port number 3000")
     }
 })
-
-app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
-
-
-//npm run swagger-autogen 
-

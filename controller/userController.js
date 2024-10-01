@@ -97,7 +97,8 @@ module.exports.addUser = function (req, res) {
         "age": age,
         "gender": gender,
         "contactNo": contactNo,
-        "email": email
+        "email": email,
+        "password":password
     })
 
 
@@ -142,7 +143,7 @@ module.exports.addUser = function (req, res) {
         })
     }
 
-    console.log(password)
+    // console.log(password)
 
     if (isError) {
         res.json({
@@ -244,14 +245,6 @@ module.exports.updateUser = function (req, res) {
         }
     }
 
-    if (password != undefined) {
-        if (validator.isAlpha(password) == false || password.trim().length == 0) {
-            isError = true;
-            err.push({
-                "Password Error": "Please Enter Valid Password"
-            })
-        }
-    }
 
 
     if (isError) {

@@ -89,6 +89,7 @@ module.exports.getAllfeedback = function (req, res) {
 //update feedback
 module.exports.updatefeedback = function (req, res) {
 
+    let feedbackId=req.body.feedbackId
     let date = req.body.date
     let feedback = req.body.feedback
     let acknowledgement = req.body.acknowledgement
