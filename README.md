@@ -89,12 +89,13 @@ Open the Android project in Android Studio:
 ``` cd enhomes/esociety ```
 Build the project and ensure all dependencies are installed.
 Run the Android app on an emulator or physical device.
-Configuration
+###### Configuration
 Adjust configuration settings for both backend and frontend in their respective .env or config.json files.
 
-License
+##### License
 This project is licensed under the MIT License – you are free to use, modify, and distribute this software under the terms of the license.
-Contact
+
+##### Contact
 For any questions, support, or further inquiries, please contact us at: 
 Ekta Patel - exp6089@mavs.uta.edu
 Paridhi Patel - psp9595@mavs.uta.edu
